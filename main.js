@@ -146,30 +146,23 @@ function setupHotkey() {
   if (hasAccess) try {
     const { uIOhook, UiohookKey } = require('uiohook-napi');
 
-    let lastCtrlAt = 0;
+    let shiftDown = false;
 
     uIOhook.on('keydown', (e) => {
-      const isCtrl =
-        e.keycode === UiohookKey.Ctrl ||
-        e.keycode === UiohookKey.CtrlRight;
+      const isShift = e.keycode === UiohookKey.Shift || e.keycode === UiohookKey.ShiftRight;
+      const isCtrl  = e.keycode === UiohookKey.Ctrl  || e.keycode === UiohookKey.CtrlRight;
 
-      if (isCtrl) {
-        const now = Date.now();
-        if (now - lastCtrlAt > 60 && now - lastCtrlAt < 400) {
-          // Two Ctrl presses within 60–400 ms → toggle
-          toggleOverlay();
-          lastCtrlAt = 0;
-        } else {
-          lastCtrlAt = now;
-        }
-      } else {
-        // Any non-Ctrl keydown resets the double-press window
-        lastCtrlAt = 0;
-      }
+      if (isShift) { shiftDown = true; return; }
+      if (isCtrl && shiftDown) { toggleOverlay(); return; }
+    });
+
+    uIOhook.on('keyup', (e) => {
+      const isShift = e.keycode === UiohookKey.Shift || e.keycode === UiohookKey.ShiftRight;
+      if (isShift) shiftDown = false;
     });
 
     uIOhook.start();
-    console.log('[Arcana] Ctrl+Ctrl hotkey active (uiohook-napi)');
+    console.log('[Arcana] Shift+Ctrl hotkey active (uiohook-napi)');
     return;
   } catch (err) {
     console.warn('[Arcana] uiohook-napi unavailable:', err.message);
