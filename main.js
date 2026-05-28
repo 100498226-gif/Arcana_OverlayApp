@@ -19,18 +19,10 @@ let overlayWindow = null;
 let tray = null;
 let isVisible = false;
 
-// ── Tray icon (22×22 teal square, replaces with a real icon if you add icon.png) ──
+// ── Tray icon ──────────────────────────────────────────────────────────────────
 function buildTrayIcon() {
-  const size = 22;
-  const buf = Buffer.alloc(size * size * 4);
-  // Teal #0D9488
-  for (let i = 0; i < size * size; i++) {
-    buf[i * 4]     = 13;   // R
-    buf[i * 4 + 1] = 148;  // G
-    buf[i * 4 + 2] = 136;  // B
-    buf[i * 4 + 3] = 255;  // A
-  }
-  return nativeImage.createFromBuffer(buf, { width: size, height: size });
+  const iconPath = path.join(__dirname, 'icon.png');
+  return nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
 }
 
 // ── Overlay window ─────────────────────────────────────────────────────────────
