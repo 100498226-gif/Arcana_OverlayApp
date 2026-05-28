@@ -1,0 +1,17 @@
+{
+  "name": "arcana-overlay",
+  "version": "1.0.0",
+  "description": "Arcana overlay desktop app — Ctrl+Ctrl to toggle",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "electron-rebuild -f -w uiohook-napi"
+  },
+  "dependencies": {
+    "uiohook-napi": "^1.5.3"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-rebuild": "^3.2.9"
+  }
+}
