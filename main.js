@@ -9,7 +9,9 @@ const {
   screen,
   dialog,
   systemPreferences,
+  ipcMain,
 } = require('electron');
+const path = require('path');
 
 const FRONTEND_URL = 'http://localhost:5173';
 
@@ -50,6 +52,7 @@ function createOverlayWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
@@ -176,6 +179,25 @@ function setupHotkey() {
   console.warn('[Arcana] Fallback hotkey: Ctrl+Shift+Space');
   globalShortcut.register('Control+Shift+Space', toggleOverlay);
 }
+
+// ── Collapse / expand IPC ──────────────────────────────────────────────────────
+const FULL_W = 480, FULL_H = 290;
+const MINI_W = 360, MINI_H = 80;
+
+ipcMain.on('window:collapse', () => {
+  if (!overlayWindow) return;
+  overlayWindow.setSize(MINI_W, MINI_H);
+});
+
+ipcMain.on('window:expand', () => {
+  if (!overlayWindow) return;
+  overlayWindow.setSize(FULL_W, FULL_H);
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  overlayWindow.setPosition(
+    Math.round((width - FULL_W) / 2),
+    Math.round((height - FULL_H) / 2),
+  );
+});
 
 // ── App lifecycle ──────────────────────────────────────────────────────────────
 app.whenReady().then(() => {
