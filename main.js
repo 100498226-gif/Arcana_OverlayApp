@@ -31,9 +31,9 @@ function createOverlayWindow() {
 
   overlayWindow = new BrowserWindow({
     width: 480,
-    height: 290,
+    height: 520,
     x: Math.round((width - 480) / 2),
-    y: Math.round((height - 290) / 2),
+    y: Math.round((height - 520) / 2),
     frame: false,
     transparent: false,
     backgroundColor: '#F9FAFB',
@@ -166,7 +166,7 @@ function setupHotkey() {
 }
 
 // ── Collapse / expand IPC ──────────────────────────────────────────────────────
-const FULL_W = 480, FULL_H = 290;
+const FULL_W = 480, FULL_H = 520;
 const MINI_W = 360, MINI_H = 80;
 
 ipcMain.on('window:collapse', () => {
