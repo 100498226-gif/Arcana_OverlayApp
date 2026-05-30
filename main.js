@@ -48,6 +48,16 @@ function createOverlayWindow() {
     },
   });
 
+  // macOS: make the overlay appear in every Space and over fullscreen apps,
+  // not just the Space it was created in. Without these, opening the overlay
+  // from a different Space (or from a fullscreen app) warps the user back to
+  // the window's original Space instead of floating above the current screen.
+  if (process.platform === 'darwin') {
+    overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    overlayWindow.setAlwaysOnTop(true, 'screen-saver');
+    overlayWindow.setFullScreenable(false);
+  }
+
   overlayWindow.loadURL(FRONTEND_URL);
 
   // Inject a draggable strip with a visible grip handle so the frameless
