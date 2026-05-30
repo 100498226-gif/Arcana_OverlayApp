@@ -50,7 +50,8 @@ function createOverlayWindow() {
 
   overlayWindow.loadURL(FRONTEND_URL);
 
-  // Inject a thin drag strip so the frameless window can be moved
+  // Inject a draggable strip with a visible grip handle so the frameless
+  // window can be moved and the user knows where to grab it.
   overlayWindow.webContents.on('did-finish-load', () => {
     overlayWindow.webContents.executeJavaScript(`
       (() => {
@@ -58,8 +59,20 @@ function createOverlayWindow() {
         const bar = document.createElement('div');
         bar.id = '_arcana_drag';
         bar.style.cssText =
-          'position:fixed;top:0;left:0;right:0;height:10px;' +
-          '-webkit-app-region:drag;z-index:2147483647;cursor:move;';
+          'position:fixed;top:0;left:0;right:0;height:14px;' +
+          '-webkit-app-region:drag;z-index:2147483647;cursor:move;' +
+          'display:flex;align-items:center;justify-content:center;' +
+          'pointer-events:auto;';
+        const handle = document.createElement('div');
+        handle.style.cssText =
+          'display:flex;gap:3px;opacity:0.45;margin-top:2px;';
+        for (let i = 0; i < 3; i++) {
+          const dot = document.createElement('div');
+          dot.style.cssText =
+            'width:3px;height:3px;border-radius:50%;background:#6b7280;';
+          handle.appendChild(dot);
+        }
+        bar.appendChild(handle);
         document.body.appendChild(bar);
       })();
     `).catch(() => {});
