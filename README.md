@@ -1,6 +1,6 @@
 # Arcana — Desktop Overlay App
 
-A macOS desktop overlay for Arcana, built with Electron. It wraps the exact same frontend (`Arcanaaiuiuxdesign`) in a native macOS window — no duplicate code, no separate design.
+A macOS desktop overlay for Arcana, built with Electron. It wraps the exact same frontend (`Arcana_frontend`) in a native macOS window — no duplicate code, no separate design.
 
 The overlay lives in the macOS menu bar and can be toggled instantly from any application, without switching windows or opening a browser.
 
