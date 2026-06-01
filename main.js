@@ -22,7 +22,13 @@ let isVisible = false;
 // ── Tray icon ──────────────────────────────────────────────────────────────────
 function buildTrayIcon() {
   const iconPath = path.join(__dirname, 'icon.png');
-  return nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
+  const img = nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
+  // Template image: macOS uses the alpha channel as a mask and tints the icon
+  // to match the menu bar (white on dark bars, black on light bars). This is
+  // the Apple-recommended way for menu bar icons and gives the icon the
+  // correct color automatically in either appearance.
+  img.setTemplateImage(true);
+  return img;
 }
 
 // ── Overlay window ─────────────────────────────────────────────────────────────
