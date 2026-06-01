@@ -88,4 +88,4 @@ Arcana_OverlayApp/
 
 ---
 
-*Arcana — built by Ignacio Chidom, 2026*
+*Arcana — built by Ignacio, 2026*
